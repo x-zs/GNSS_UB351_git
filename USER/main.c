@@ -180,8 +180,8 @@ void uart2tx_task(void *p_arg)
 	OSSemPend(&SEM_DW1000_Dry, 0, OS_OPT_PEND_BLOCKING, &ts, &err);
 	}
 }
-u16 lose_number=0;	
-u8 start_flag=0;
+//u16 lose_number=0;	
+//u8 start_flag=0;
 void uart2rx_task(void *p_arg)
 {
 	OS_ERR err;
@@ -198,14 +198,6 @@ void uart2rx_task(void *p_arg)
 		LED0=!LED0;//每次接收到数据后闪烁一次	  
 		//if(flag==0)  
 		//{flag=1;
-		if(start_flag==0)  
-		{start_flag=1;
-		 lose_number=0;
-	  }
-		else 
-		{if(UART1_rxBuf[0]==0xd3&&UART1_rxBuf[3]==0x3f)
-			lose_number=lose_number-1;
-		}
 		 TIM2->CNT=0;//将计数器清零
 		 IR_500ms=1;//观测量帧发送后的500ms后再发送信息状态帧
 		//}	
