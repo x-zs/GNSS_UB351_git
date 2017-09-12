@@ -53,22 +53,11 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
 }
 
 uint32 delaySyncTxTime;
-u8 Send_flag=0;
-extern u8 start_flag;
-extern u16 rx2_len;
-extern u16 rx_len1;
-//extern u16 lose_number;
+
 void TIM2_IRQHandler(void)
 {	IR_500ms+=1;
 	if(IR_500ms==2)
-	{
-//	 lose_number=lose_number+1;
-
-	 LED0=!LED0;//每次接收到数据后闪烁一次	
-	 Send_flag=1;		
-   HAL_UART_Receive_DMA(&UART1_Handler,&UART1_rxBuf[0],RECEIVELEN);				//重新启动接收
-	 UB351_Transmit(UART1_rxBuf,rx_len1,1);
-   rx_len1=0;
+	{UB351_Transmit(UART1_rxBuf,0,3);
 	 IR_500ms=0;
 	}
 	HAL_TIM_IRQHandler(&TIM2_Handler);		

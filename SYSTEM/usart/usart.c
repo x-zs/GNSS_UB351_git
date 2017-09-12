@@ -162,14 +162,10 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
 }
 //u8 flag=0;
 u16 rx_len1=0;
-extern u8 Send_flag;
-extern u8 start_flag;
-extern u8 IR_500ms;
 //u16 rx_len2=0;
 //串口接收空闲中断
 void UsartReceive_IDLE(UART_HandleTypeDef *huart)  
 {
-	
 	uint32_t temp;
 	uint32_t rx_len;
 	OS_ERR err;	
@@ -185,19 +181,11 @@ void UsartReceive_IDLE(UART_HandleTypeDef *huart)
 			UART1_Handler.State = HAL_UART_STATE_READY;
 			temp = UART1_Handler.hdmarx->Instance->NDTR;
 			rx_len =  RECEIVELEN - temp;
-			rx_len1=rx_len1+rx_len;	
 		 if(UART1_rxBuf[0]==0xd3&&(UART1_rxBuf[3]==0x3F||UART1_rxBuf[3]==0x03||UART1_rxBuf[3]==0x43||UART1_rxBuf[3]==0x46))
-			{	if(start_flag==0)
-				{	//Send_flag=0;
-				 //OSQPost(&OSQ_UART1RxMsgQ, &UART1_rxBuf[0], rx_len1, OS_OPT_POST_FIFO, &err);				
-				 TIM2->CNT=0;//将计数器清零
-				 IR_500ms=1;//观测量帧发送后的500ms后再发送信息状态帧
-				 start_flag=1;
-				}
-				else 
-				{
-		  	HAL_UART_Receive_DMA(&UART1_Handler,&UART1_rxBuf[rx_len1],RECEIVELEN);						
-				}
+			{	//rx_len=rx_len1+rx_len;	
+				OSQPost(&OSQ_UART1RxMsgQ, &UART1_rxBuf[0], rx_len, OS_OPT_POST_FIFO, &err);								
+			//重新启动接收
+		  	HAL_UART_Receive_DMA(&UART1_Handler,&UART1_rxBuf[0],RECEIVELEN);	
 				
 			}
 			else 
