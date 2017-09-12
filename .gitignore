@@ -79,7 +79,7 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 OBJ/
-
-
+*.uvoptx
+*.uvprojx
 # Windows shortcuts
 *.lnk

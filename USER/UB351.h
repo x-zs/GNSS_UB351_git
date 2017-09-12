@@ -2,7 +2,7 @@
 #define _UB351_H
 #include "sys.h"
 #include "stdio.h"	
-#define Station_Number 2
+#define Station_Number 1
 #define Station_Type 1
 extern u8 IR_500ms;
 void UB351_Receive(u8 *message,u16 length);
