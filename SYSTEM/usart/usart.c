@@ -162,12 +162,13 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
 }
 //u8 flag=0;
 u16 rx_len1=0;
+uint32_t rx_len;
 //u16 rx_len2=0;
 //串口接收空闲中断
 void UsartReceive_IDLE(UART_HandleTypeDef *huart)  
 {
 	uint32_t temp;
-	uint32_t rx_len;
+
 	OS_ERR err;	
 
 	if (huart->Instance == USART1)
